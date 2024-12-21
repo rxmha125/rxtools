@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Calculator</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        /* Glassmorphism Effect */
+        .glass {
+            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        form {
+      width: 100%;
+      max-width: 500px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      text-align: center;
+    }
+
+    header {
+      font-size: 28px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    .url-input {
+      margin: 20px 0;
+    }
+
+    .url-input .title {
+      font-size: 18px;
+      color: #fff;
+      font-weight: 500;
+    }
+
+    .url-input .field {
+      margin-top: 8px;
+      position: relative;
+    }
+
+    .url-input input {
+      width: 100%;
+      height: 50px;
+      padding: 0 15px;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background: #f9f9fc;
+      transition: border-color 0.3s;
+    }
+
+    .url-input input:focus {
+      border-color: #7D2AE8;
+      outline: none;
+    }
+
+    .preview-area {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      height: 220px;
+      border-radius: 8px;
+      border: 2px dashed rgba(255, 255, 255, 0.5);
+      color: white;
+      position: relative;
+      transition: border 0.3s;
+    }
+
+    .preview-area.active {
+      border: none;
+    }
+
+    .thumbnail {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 5px;
+      display: none;
+    }
+
+    .preview-area.active .thumbnail {
+      display: block;
+    }
+
+    .icon {
+      font-size: 80px;
+      transition: transform 0.3s;
+    }
+
+    .icon:hover {
+      transform: scale(1.1);
+    }
+
+    .preview-area span {
+      margin-top: 10px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 17px;
+      font-weight: 500;
+      height: 53px;
+      padding: 0 20px;
+      border: none;
+      border-radius: 5px;
+      background: #7D2AE8;
+      cursor: pointer;
+      text-decoration: none;
+      margin: 10px 0;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .btn:hover {
+      background: #6b24e1;
+      transform: translateY(-2px);
+    }
+
+    .contact-section {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 15px;
+      color: white;
+    }
+
+    .contact-section p {
+      margin-bottom: 15px;
+    }
+
+    .contact-btn-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .contact-btn {
+      background-color: black;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 20px;
+      border-radius: 30px;
+      color: white;
+      text-decoration: none;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .contact-btn:hover {
+      background-color: #555;
+      transform: translateY(-2px);
+    }
+
+    .back {
+      color: blue;
+      text-decoration: none;
+      font-size: 15px;
+    }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-pink-500 via-purple-500 to-indigo-500 min-h-screen flex justify-center items-center flex-col text-black">
+
+    <form>
+        <a class="back" href="/">Back to Home</a>
+        <header>Download YouTube Thumbnail</header>
+        <div class="url-input">
+          <span class="title">Paste video URL:</span>
+          <div class="field">
+            <input type="text" id="urlInput" placeholder="https://www.youtube.com/watch?v=example" required>
+          </div>
+        </div>
+        <div class="preview-area">
+          <img class="thumbnail" id="thumbnail" src="" alt="Video Thumbnail">
+          <i class="icon fas fa-cloud-download-alt"></i>
+          <span>Paste video URL to see preview</span>
+        </div>
+        <a class="btn" id="downloadBtn" download="thumbnail.jpg" style="pointer-events: none;">Download Thumbnail</a>
+        
+        <div class="contact-section">
+          <p>Website made by Rx</p>
+          <div class="contact-btn-container">
+            <a class="contact-btn" href="mailto:rx.mha2@gmail.com?subject=Hello&body=Type your message here" target="_blank"><i class="fas fa-envelope"></i> Email Rx: rx.mha2@gmail.com</a>
+            <a class="contact-btn" href="tel:+8801758292375" target="_blank"><i class="fas fa-phone"></i> Call Rx: +8801758292375</a>
+          </div>
+        </div>
+      </form>
+    
+      <script>
+        const urlInput = document.getElementById("urlInput"),
+              thumbnail = document.getElementById("thumbnail"),
+              previewArea = document.querySelector(".preview-area"),
+              downloadBtn = document.getElementById("downloadBtn");
+    
+        urlInput.addEventListener("input", function() {
+          const url = urlInput.value.trim();
+          let imgUrl = "";
+    
+          if (url.includes("https://www.youtube.com/watch?v=")) {
+            const videoId = url.split("v=")[1].substring(0, 11);
+            imgUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+          } else if (url.includes("https://youtu.be/")) {
+            const videoId = url.split("be/")[1].substring(0, 11);
+            imgUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+          } else {
+            imgUrl = "";
+          }
+    
+          if (imgUrl) {
+            previewArea.classList.add("active");
+            thumbnail.src = imgUrl;
+            downloadBtn.href = imgUrl;
+            downloadBtn.style.pointerEvents = "auto";
+          } else {
+            previewArea.classList.remove("active");
+            thumbnail.src = "";
+            downloadBtn.href = "#";
+            downloadBtn.style.pointerEvents = "none";
+          }
+        });
+      </script>
+
+</body>
+</html>
